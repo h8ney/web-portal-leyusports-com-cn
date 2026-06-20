@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱游戏 · 知识库·日常查询与对照</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f1f3f4;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #2c2f33;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* 浅灰背景卡片体系 */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid #eaecee;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      transition: box-shadow 0.15s ease;
+    }
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.03);
+    }
+
+    /* 标题与文本 */
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: #1f2226;
+      margin-bottom: 1rem;
+      border-left: 5px solid #bbc4cc;
+      padding-left: 0.9rem;
+    }
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #30353b;
+      margin: 1rem 0 0.5rem;
+    }
+    p {
+      margin-bottom: 0.75rem;
+      color: #3a3f46;
+    }
+    a {
+      color: #2c6f9c;
+      text-decoration: none;
+      border-bottom: 1px dotted #b4c8da;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    a:hover {
+      color: #164566;
+      border-bottom: 1px solid #164566;
+    }
+
+    /* 目录感布局：卡片内网格 */
+    .index-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 1.2rem 0 0.2rem;
+    }
+    .index-item {
+      background: #f7f9fb;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #e0e4e8;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .index-item:hover {
+      background: #eef2f6;
+      border-color: #c7d0da;
+    }
+    .index-item strong {
+      display: block;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #1d3d5c;
+      margin-bottom: 0.2rem;
+    }
+    .index-item span {
+      font-size: 0.9rem;
+      color: #55616d;
+    }
+
+    /* 提示区 & 相关信息 */
+    .info-blocks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      margin-top: 0.5rem;
+    }
+    .info-block {
+      flex: 1 1 220px;
+    }
+    .info-block p {
+      font-size: 0.95rem;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      margin: 0.8rem 0 0.2rem;
+    }
+    .tag {
+      background: #e9edf1;
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: #35424c;
+      border: 1px solid #d5dbe1;
+    }
+
+    /* FAQ 摘要 */
+    .faq-mini {
+      margin-top: 1rem;
+    }
+    .faq-mini details {
+      border-bottom: 1px solid #e2e6ea;
+      padding: 0.6rem 0;
+    }
+    .faq-mini details:last-of-type {
+      border-bottom: none;
+    }
+    .faq-mini summary {
+      font-weight: 500;
+      cursor: pointer;
+      color: #2c3f53;
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    .faq-mini summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq-mini summary::before {
+      content: "▸";
+      margin-right: 0.6rem;
+      color: #6d7b8a;
+      transition: transform 0.2s;
+    }
+    .faq-mini details[open] summary::before {
+      transform: rotate(90deg);
+    }
+    .faq-mini .answer {
+      padding: 0.5rem 0 0.2rem 1.6rem;
+      color: #3f4a55;
+      font-size: 0.95rem;
+    }
+
+    /* 小小按钮风格（非链接，仅装饰/标签） */
+    .soft-button {
+      display: inline-block;
+      background: #edf1f5;
+      border: 1px solid #ced6de;
+      border-radius: 40px;
+      padding: 0.3rem 1.2rem;
+      font-size: 0.85rem;
+      color: #2b3c4b;
+      margin: 0.2rem 0.3rem 0 0;
+      pointer-events: none;
+    }
+
+    /* 响应式 */
+    @media (max-width: 640px) {
+      body { padding: 1.2rem 0.8rem; }
+      .card { padding: 1.4rem 1.2rem; }
+      h2 { font-size: 1.4rem; }
+      .index-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .index-grid { grid-template-columns: 1fr; }
+      .info-blocks { flex-direction: column; gap: 1rem; }
+    }
+
+    /* hero 小区域 */
+    .hero-tagline {
+      font-size: 0.95rem;
+      color: #4a5866;
+      background: #f0f3f7;
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+      border: 1px solid #dce1e7;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #dee3e8;
+      margin: 1.8rem 0 1.2rem;
+    }
+    .footnote {
+      font-size: 0.9rem;
+      color: #6a7885;
+      text-align: center;
+      padding: 1rem 0 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 卡片式入口：目录感布局 + 说明 -->
+  <div class="card">
+    <div class="hero-tagline">📋 日常查询 · 对照 · 延伸阅读</div>
+    <h2>爱游戏 · 信息据点</h2>
+    <p>内容爱好者常围绕游戏资讯、活动回顾、版本变迁进行反复查询与比对。下面整理了几个常见检索方向，方便快速定位所需内容。每一个条目都指向 <a href="https://m-site-aiyouxi.com">爱游戏</a> 中沉淀的相关资料，你可以根据兴趣直接翻阅。</p>
+
+    <div class="index-grid">
+      <div class="index-item">
+        <strong>🎮 作品目录</strong>
+        <span>按年份 / 系列 / 平台浏览</span>
+      </div>
+      <div class="index-item">
+        <strong>📅 活动时间线</strong>
+        <span>测试、公测、限时活动对照</span>
+      </div>
+      <div class="index-item">
+        <strong>📖 系统说明</strong>
+        <span>机制、养成、界面术语</span>
+      </div>
+      <div class="index-item">
+        <strong>🔍 版本记录</strong>
+        <span>更新日志、调整对照</span>
+      </div>
+      <div class="index-item">
+        <strong>🧩 延伸条目</strong>
+        <span>设定考据、文化参考</span>
+      </div>
+      <div class="index-item">
+        <strong>🔄 玩家笔记</strong>
+        <span>心得、技巧、误区提醒</span>
+      </div>
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.95rem; color: #4f5b66;">以上分类仅为起点，更多素材持续整合在 <a href="https://m-site-aiyouxi.com">爱游戏</a> 的知识节点中。</p>
+  </div>
+
+  <!-- 说明区：日常查询场景 -->
+  <div class="card">
+    <h2>📌 说明 · 为什么需要查询与对照</h2>
+    <p>面对不断更新的游戏内容，玩家常遇到几个典型情况：想确认某次活动的具体时间，却只记得模糊印象；在不同版本间比对角色或装备调整；或是阅读衍生文章时想快速追溯原始设定。这时，一个条目清晰、指向明确的知识库能节省大量反复搜索的时间。</p>
+    <p><a href="https://m-site-aiyouxi.com">爱游戏</a> 正是基于这种需求，把散落的信息组织为可检索、可对照的条目。你不需要在众多论坛里翻找，只需带着问题来这里定位对应分类。</p>
+    <div class="soft-button">基于版本 · 持续修订</div>
+    <div class="soft-button">引用可溯源</div>
+  </div>
+
+  <!-- 提示区 + 相关信息区 -->
+  <div class="card">
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: flex-start;">
+      <h2 style="border-left-color: #a3b6c9; margin-bottom: 0.4rem;">💡 提示 · 阅读习惯</h2>
+      <span style="font-size: 0.85rem; color: #64748c; background: #ecf0f4; padding: 0.2rem 1rem; border-radius: 30px;">建议先看目录</span>
+    </div>
+    <div class="info-blocks">
+      <div class="info-block">
+        <p>🔹 <strong>对照阅读</strong> — 打开两个条目并排浏览，适合版本差异、数据变迁等场景。</p>
+        <p>🔹 <strong>标签筛选</strong> — 每个条目附带若干标签，点击可快速聚焦同类内容。</p>
+      </div>
+      <div class="info-block">
+        <p>🔸 <strong>记录日期</strong> — 条目下方标注收录或最后更新日期，方便判断时效。</p>
+        <p>🔸 <strong>延伸跳转</strong> — 文末关联条目与参考链接，便于做进一步阅读。</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 1.6rem;">📎 相关信息 · 你可能也感兴趣</h3>
+    <div class="tag-list">
+      <span class="tag"># 新手索引</span>
+      <span class="tag"># 活动时间轴</span>
+      <span class="tag"># 职业/角色百科</span>
+      <span class="tag"># 术语对照表</span>
+      <span class="tag"># 版本演变</span>
+    </div>
+    <p style="margin-top: 0.8rem; font-size: 0.9rem;">上述标签对应页面均可通过 <a href="https://m-site-aiyouxi.com">爱游戏</a> 首页目录或站内搜索找到。</p>
+  </div>
+
+  <!-- FAQ 摘要区 -->
+  <div class="card">
+    <h2>❔ 常见问题摘要</h2>
+    <div class="faq-mini">
+      <details>
+        <summary>查询某个活动时，如何确认当前使用的版本是最新的？</summary>
+        <div class="answer">每个活动条目顶部会标注“最后更新”日期，并附带版本号（如 v3.2.1）。如果版本号与你所处的客户端版本一致，说明内容已同步；若不一致，可参阅“版本记录”分类下的对照条目。</div>
+      </details>
+      <details>
+        <summary>为什么有些条目没有直接给出结论，而是列出多组数据？</summary>
+        <div class="answer">对于存在争议或不同服务器设定有差异的内容，知识库倾向于罗列客观数据，并标注来源，由读者自行判断。这样比单一结论更可靠，也方便延伸研究。</div>
+      </details>
+      <details>
+        <summary>我想自己补充或修正某个条目，应该怎么做？</summary>
+        <div class="answer">目前内容由编辑团队维护。如果你发现遗漏或错误，可以通过 <a href="https://m-site-aiyouxi.com">爱游戏</a> 页面底部的“反馈”链接提交建议，后续版本会酌情采纳。</div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 轻量 separator -->
+  <hr>
+
+  <div class="footnote">
+    <span>内容方向：日常查询 · 对照 · 延伸阅读 ｜ 基于 <a href="https://m-site-aiyouxi.com">爱游戏</a> 知识库</span>
+  </div>
+
+</div>
+</body>
+</html>
