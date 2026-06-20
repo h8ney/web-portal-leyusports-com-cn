@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>jjb · 简明指南与访问备忘</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f2f7fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #1e2b33;
+            line-height: 1.6;
+        }
+
+        .page-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1.2rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* hero 横幅 */
+        .hero {
+            background: linear-gradient(145deg, #e0f0f5 0%, #c7e2ed 100%);
+            border-radius: 2.5rem 2.5rem 1.5rem 1.5rem;
+            padding: 2.8rem 2rem 3rem;
+            margin-bottom: 2.8rem;
+            box-shadow: 0 12px 24px -10px rgba(50, 100, 110, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -5%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at 30% 40%, rgba(60, 160, 170, 0.12), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #11343e;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .sub {
+            font-size: 1.15rem;
+            color: #2c5866;
+            font-weight: 400;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+            padding: 0.8rem 1.2rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 0.4rem;
+            border: 1px solid rgba(80, 160, 170, 0.2);
+        }
+
+        /* 背景卡片说明 */
+        .context-card {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 2rem 1.8rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+            border-left: 6px solid #46a6b5;
+            transition: box-shadow 0.2s;
+        }
+
+        .context-card p {
+            font-size: 1.05rem;
+            color: #1b3b45;
+            max-width: 800px;
+        }
+
+        .context-card .highlight {
+            background: #e1f2f5;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #1b5c68;
+        }
+
+        /* 网格卡片区域：三段自然介绍 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
+            margin: 2.2rem 0 2.8rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.8rem 1.6rem 2rem;
+            box-shadow: 0 8px 20px rgba(50, 100, 110, 0.05);
+            border: 1px solid #dde9ef;
+            transition: transform 0.15s, box-shadow 0.25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(50, 110, 120, 0.08);
+            border-color: #b2d6e0;
+        }
+
+        .feature-card .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.6rem;
+            display: inline-block;
+            background: #ddeef3;
+            width: 52px;
+            height: 52px;
+            line-height: 52px;
+            text-align: center;
+            border-radius: 18px;
+            color: #1d6875;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1a444f;
+            margin: 0.6rem 0 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.98rem;
+            color: #2b4d58;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-card .meta-hint {
+            font-size: 0.9rem;
+            color: #53818e;
+            background: #eef7fa;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-top: 0.6rem;
+        }
+
+        /* 访问提示 / 提醒区块 */
+        .notice-wrap {
+            background: #dcecf2;
+            border-radius: 2rem;
+            padding: 2rem 2rem 2.2rem;
+            margin: 1.2rem 0 2.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .notice-text {
+            flex: 2 1 260px;
+        }
+
+        .notice-text p {
+            font-size: 1.05rem;
+            color: #14313c;
+            margin-bottom: 0.2rem;
+        }
+
+        .notice-text .small-note {
+            font-size: 0.92rem;
+            color: #3b6b78;
+            padding-top: 0.2rem;
+        }
+
+        .notice-link-area {
+            flex: 1 1 180px;
+            text-align: right;
+        }
+
+        .notice-link-area a {
+            display: inline-block;
+            background: #206b7a;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.3px;
+            box-shadow: 0 6px 12px rgba(30, 90, 100, 0.12);
+        }
+
+        .notice-link-area a:hover {
+            background: #0e5565;
+            transform: scale(1.02);
+        }
+
+        .notice-link-area a:active {
+            transform: scale(0.97);
+        }
+
+        /* FAQ 摘要 */
+        .faq-mini {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.8rem 1.8rem 2rem;
+            margin: 2rem 0 2.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #cde0e7;
+        }
+
+        .faq-mini h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1b4e5b;
+            margin-bottom: 1rem;
+        }
+
+        .faq-item {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px dashed #cfe2e9;
+            padding-bottom: 0.8rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-q {
+            font-weight: 600;
+            color: #0d404c;
+            font-size: 1rem;
+        }
+
+        .faq-a {
+            color: #305a66;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+
+        /* 页尾 */
+        .page-footer {
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #cde0e7;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #4d7886;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .page-footer span {
+            opacity: 0.7;
+        }
+
+        /* 响应式 */
+        @media (max-width: 800px) {
+            .hero h1 { font-size: 2rem; }
+            .hero .sub { font-size: 1rem; padding: 0.6rem 1rem; }
+            .feature-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .notice-wrap { flex-direction: column; align-items: stretch; text-align: center; }
+            .notice-link-area { text-align: center; margin-top: 0.6rem; }
+            .context-card { padding: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .page-wrap { padding: 1rem 0.8rem; }
+            .hero { padding: 2rem 1.2rem 2.4rem; }
+            .hero h1 { font-size: 1.7rem; }
+            .feature-card { padding: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrap">
+        <!-- hero 横幅 -->
+        <header class="hero">
+            <h1>jjb · 轻量访问备忘</h1>
+            <div class="sub">一份不绕路的简明指南 · 背景与提醒</div>
+        </header>
+
+        <!-- 背景说明 -->
+        <div class="context-card">
+            <p>
+                <span class="highlight">jjb</span> 并非复杂的概念 —— 它指向一个具体的线上位置，适合需要快速了解或定期查阅的人。 
+                很多人初次接触时希望有一份简单的介绍，而不是冗长的文档。下面从几个侧面展开，帮助你建立整体印象。
+            </p>
+        </div>
+
+        <!-- 三段自然介绍 (网格卡片) -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="card-icon">📘</div>
+                <h3>定位与用途</h3>
+                <p>作为一个信息聚合与功能入口，<strong>jjb</strong> 面向日常查询、工具访问或资源索引。界面直接，减少中间跳转，适合快速定位目标。</p>
+                <div class="meta-hint">场景示例 · 资料查阅</div>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon">🧭</div>
+                <h3>访问方式</h3>
+                <p>通过标准的浏览器即可打开，无需额外插件或配置。移动端与桌面端呈现一致的核心内容，布局会自适应屏幕宽度。</p>
+                <div class="meta-hint">场景示例 · 跨设备使用</div>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon">🔄</div>
+                <h3>信息结构</h3>
+                <p>内容采用分区导航，主要分为概述、功能模块和辅助说明。每个区域保持独立，你可以按需浏览，不必从头到尾阅读。</p>
+                <div class="meta-hint">场景示例 · 快速跳转</div>
+            </div>
+        </div>
+
+        <!-- 访问提示 + 链接 (严格包含 "jjb" 文本) -->
+        <div class="notice-wrap">
+            <div class="notice-text">
+                <p><strong>访问提醒</strong> · 如果你正在寻找 <a href="https://ssl-jjb.com" style="color: #155a68; text-decoration: underline; font-weight: 600; background: transparent; padding: 0; border-radius: 0; box-shadow: none; display: inline;">jjb</a> 对应的页面，下面的链接可以直接带你去。</p>
+                <div class="small-note">建议将地址加入书签，方便日后再次访问。</div>
+            </div>
+            <div class="notice-link-area">
+                <a href="https://ssl-jjb.com">jjb</a>
+            </div>
+        </div>
+
+        <!-- FAQ 摘要 (增加丰富度) -->
+        <div class="faq-mini">
+            <h4>常见问题摘要</h4>
+            <div class="faq-item">
+                <span class="faq-q">▪ 是否需要注册或登录？</span>
+                <span class="faq-a">大多数浏览无需注册，部分功能可能根据情况要求验证。建议直接尝试。</span>
+            </div>
+            <div class="faq-item">
+                <span class="faq-q">▪ 移动端体验如何？</span>
+                <span class="faq-a">页面经过适配，按钮和链接间距适合手指操作，横向内容会自动重排。</span>
+            </div>
+            <div class="faq-item">
+                <span class="faq-q">▪ 信息更新频率？</span>
+                <span class="faq-a">内容会不定期调整，以保持准确与实用。留意页面标注的版本或日期。</span>
+            </div>
+        </div>
+
+        <!-- 页尾 -->
+        <footer class="page-footer">
+            <span>页面仅为介绍与提醒 · 内容仅供一般参考</span>
+            <span>© jjb 简明指南</span>
+        </footer>
+    </div>
+</body>
+</html>
